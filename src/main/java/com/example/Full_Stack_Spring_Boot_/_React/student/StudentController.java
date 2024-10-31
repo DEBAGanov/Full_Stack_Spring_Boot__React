@@ -1,4 +1,5 @@
 package com.example.Full_Stack_Spring_Boot_._React.student;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("student")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
     @GetMapping
     public List<Student> getAllStudents() {
