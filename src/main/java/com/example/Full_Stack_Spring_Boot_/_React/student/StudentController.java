@@ -1,4 +1,5 @@
 package com.example.Full_Stack_Spring_Boot_._React.student;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,30 +13,15 @@ import java.util.UUID;
 @RequestMapping("student")
 @CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
+
+    private final StudentService studentService;
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
     @GetMapping
     public List<Student> getAllStudents() {
-        return List.of(
-                new Student(
-                        UUID.randomUUID(),
-                        "James",
-                        "Bond",
-                        "wewe@mai.ru",
-                        Student.Gender.MALE),
-
-                new Student(
-                        UUID.randomUUID(),
-                        "Maria",
-                        "Ivanova",
-                        "wewe@mai.ru",
-                        Student.Gender.FEMALE),
-
-                new Student(
-                        UUID.randomUUID(),
-                        "Sveta",
-                        "Petrova",
-                        "wewe@mai.ru",
-                        Student.Gender.FEMALE)
-        );
-
-    };
+        return studentService.getAllStudents();
+    }
 }
