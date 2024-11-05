@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { getAllStudents } from './client';
-import { Table, Avatar, Spin } from 'antd';
+import { Table, Avatar, Spin, Modal } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons'; // Импортируем иконку загрузки
 import Container from './Container';
 import Footer from './Footer';
@@ -15,12 +15,20 @@ const getIndicatorIcon = () => (
 class App extends Component {
     state = {
         students: [],
-        isFetching: false
+        isFetching: false,
+        isAddStudentModalVisible: false
     };
 
     componentDidMount() {
         this.fetchStudents();
     }
+
+    openAddStudentModalVisible = () => {
+        this.setState({ isAddStudentModalVisible: true });
+    };
+    closeAddStudentModalVisible = () => {
+        this.setState({ isAddStudentModalVisible: false });
+    };
 
     fetchStudents = () => {
         this.setState({ isFetching: true });
@@ -37,7 +45,7 @@ class App extends Component {
     };
 
     render() {
-        const { students, isFetching } = this.state;
+        const { students, isFetching, isAddStudentModalVisible } = this.state;
 
         if (isFetching) {
             return (
@@ -93,6 +101,15 @@ class App extends Component {
                     columns={columns}
                     pagination={false}
                     rowKey="studentId"/>
+                    <Modal
+                    title='Add new Student'
+                    visible={isAddStudentModalVisible}
+                    onOK={this.closeAddStudentModalVisible}
+                    onCancel={this.closeAddStudentModalVisible}
+                    width={1000}>
+                        <h1>Helo Modal width Antd</h1>
+
+                    </Modal>
                     <Footer numbersOfStudents={students.length}></Footer>
 
                 </Container>
