@@ -1,4 +1,4 @@
-.footer{
+/* .footer{
 position: fixed;
 bottom: 0;
 left: 4;
@@ -6,4 +6,14 @@ right: 0;
 background: rgba(240, 240, 240, 0.9);
 height: 5em;
 padding: 1em;
+} */
+.footer {
+    position: fixed; /* Закрепляет футер */
+    bottom: 0; /* Устанавливает футер внизу */
+    left: 0; /* Устанавливает футер по левому краю */
+    right: 0; /* Устанавливает футер по правому краю */
+    background-color: #f1f1f1; /* Цвет фона футера */
+    padding: 10px; /* Отступы внутри футера */
+    text-align: center; /* Центрирует содержимое */
+    z-index: 1000; /* Устанавливает уровень наложения */
 }

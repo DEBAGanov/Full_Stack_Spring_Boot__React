@@ -92,8 +92,9 @@ class App extends Component {
                     dataSource={students}
                     columns={columns}
                     pagination={false}
-                    rowKey="studentId" />
-                    <Footer></Footer>
+                    rowKey="studentId"/>
+                    <Footer numbersOfStudents={students.length}></Footer>
+
                 </Container>
             );
         }
