@@ -5,6 +5,7 @@ import { Table, Avatar, Spin, Modal } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons'; // Импортируем иконку загрузки
 import Container from './Container';
 import Footer from './Footer';
+import AddStudentForm from './forms/AddStudentForm';
 
 
 
@@ -23,10 +24,10 @@ class App extends Component {
         this.fetchStudents();
     }
 
-    openAddStudentModalVisible = () => {
+    openAddStudentModal = () => {
         this.setState({ isAddStudentModalVisible: true });
     };
-    closeAddStudentModalVisible = () => {
+    closeAddStudentModal = () => {
         this.setState({ isAddStudentModalVisible: false });
     };
 
@@ -101,16 +102,19 @@ class App extends Component {
                     columns={columns}
                     pagination={false}
                     rowKey="studentId"/>
+
                     <Modal
                     title='Add new Student'
                     visible={isAddStudentModalVisible}
-                    onOK={this.closeAddStudentModalVisible}
+                    onOk={this.closeAddStudentModal}
                     onCancel={this.closeAddStudentModalVisible}
                     width={1000}>
-                        <h1>Helo Modal width Antd</h1>
 
+                    <h1>Helo Modal width Antd</h1>
+                    <AddStudentForm></AddStudentForm>
                     </Modal>
-                    <Footer numbersOfStudents={students.length}></Footer>
+                    <Footer numbersOfStudents={students.length}
+                    handleAddStudentClickEvent={this.openAddStudentModal}/>
 
                 </Container>
             );

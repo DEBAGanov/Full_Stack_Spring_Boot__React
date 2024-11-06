@@ -16,7 +16,7 @@ const Footer = (props) => {
                         {props.numbersOfStudents}
                     </Avatar>
                 ) : null}
-                <Button onClick={()=>'Hello'}type="primary">Add new Student +</Button>
+                <Button onClick={()=>props.handleAddStudentClickEvent()} type="primary">Add new Student +</Button>
             </Container>
         </div>
     );

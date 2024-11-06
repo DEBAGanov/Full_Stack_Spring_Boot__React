@@ -1,6 +1,7 @@
 package com.example.Full_Stack_Spring_Boot_._React.student;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ public class StudentDataAccsessService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Student> selectAllStudents() {
+    List<Student> selectAllStudents() {
         String sql = "" +
                 "SELECT " +
                 " student_id," +
@@ -27,7 +28,11 @@ public class StudentDataAccsessService {
                 " gender " + // добавлен пробел
                 "FROM student"; // исправлено на " FROM student"
 
-        return jdbcTemplate.query(sql, (resultSet, i) -> {
+        return jdbcTemplate.query(sql, mapStudentFromDb());
+    }
+
+    private static RowMapper<Student> mapStudentFromDb() {
+        return (resultSet, i) -> {
             String studentIdStr = resultSet.getString("student_id");
             UUID studentId = UUID.fromString(studentIdStr);
             String firstName = resultSet.getString("first_Name"); // исправлено
@@ -41,6 +46,6 @@ public class StudentDataAccsessService {
                     lastName,
                     email,
                     gender);
-        });
+        };
     }
 }
