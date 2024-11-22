@@ -1,16 +1,12 @@
 package com.example.Full_Stack_Spring_Boot_._React.student;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("student")
+@RequestMapping("students")
 @CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
 
@@ -24,4 +20,9 @@ public class StudentController {
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
+    @PostMapping
+    public void addStudents(@RequestBody Student student) {
+        System.out.println(student);
+    }
+
 }

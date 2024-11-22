@@ -25,8 +25,8 @@ public class StudentDataAccsessService {
                 " first_Name," +
                 " last_Name," +
                 " email," +
-                " gender " + // добавлен пробел
-                "FROM student"; // исправлено на " FROM student"
+                " gender " +
+                "FROM student";
 
         return jdbcTemplate.query(sql, mapStudentFromDb());
     }
@@ -42,7 +42,7 @@ public class StudentDataAccsessService {
             Student.Gender gender = Student.Gender.valueOf(genderStr);
             return new Student(
                     studentId,
-                    firstName, // исправлено
+                    firstName,
                     lastName,
                     email,
                     gender);
