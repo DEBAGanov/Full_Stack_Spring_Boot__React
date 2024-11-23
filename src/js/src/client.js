@@ -1,5 +1,13 @@
 import fetch from 'unfetch';
 
 export const getAllStudents = () => fetch('http://localhost:8080/api/students');
+export const addNewStudent = student =>
+    fetch ('http://localhost:8080/api/students',{
+        headers: {
+            'Content-Type': 'application/json'
 
-// export default getAllStudents; // Экспорт по умолчанию
+        },
+        method: 'POST',
+        body: JSON.stringify(student)
+    }
+    )
