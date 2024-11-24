@@ -1,20 +1,19 @@
 package com.example.Full_Stack_Spring_Boot_._React.student;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class StudentDataAccsessService {
+public class StudentDataAccessService {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public StudentDataAccsessService(JdbcTemplate jdbcTemplate) {
+    public StudentDataAccessService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -31,6 +30,35 @@ public class StudentDataAccsessService {
         return jdbcTemplate.query(sql, mapStudentFromDb());
     }
 
+    public int insertNewStudent(UUID newStudentId, Student student) {
+        // Проверка на null
+        if (newStudentId == null || student == null) {
+            throw new IllegalArgumentException("Student ID and Student object must not be null");
+        }
+
+        String sql = "INSERT INTO student (" +
+                " student_id, " +
+                " first_name, " +
+                " last_name, " +
+                " email, " +
+                " gender ) " +
+                "VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            return jdbcTemplate.update(
+                    sql,
+                    newStudentId,
+                    student.getFirstName(),
+                    student.getLastName(),
+                    student.getEmail(),
+                    student.getGender().name().toUpperCase()
+            );
+        } catch (DataAccessException e) {
+            // Логирование ошибки
+            System.err.println("Error inserting student: " + e.getMessage());
+            throw e; // или обработайте ошибку по-другому
+        }
+    }
     private static RowMapper<Student> mapStudentFromDb() {
         return (resultSet, i) -> {
             String studentIdStr = resultSet.getString("student_id");
