@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { getAllStudents } from './client';
 import { Table, Avatar, Spin, Modal } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons'; // Импортируем иконку загрузки
+import { LoadingOutlined } from '@ant-design/icons';
 import Container from './Container';
 import Footer from './Footer';
 import AddStudentForm from './forms/AddStudentForm';
@@ -28,6 +28,7 @@ class App extends Component {
         this.setState({ isAddStudentModalVisible: true });
     };
     closeAddStudentModal = () => {
+        console.log("Закрытие модального окна");
         this.setState({ isAddStudentModalVisible: false });
     };
 
@@ -41,7 +42,7 @@ class App extends Component {
             })
             .catch(error => {
                 console.error("Ошибка при получении студентов:", error);
-                this.setState({ isFetching: false }); // Убедитесь, что isFetching сбрасывается в случае ошибки
+                this.setState({ isFetching: false });
             });
     };
 
@@ -51,7 +52,7 @@ class App extends Component {
         if (isFetching) {
             return (
                 <Container>
-                    <Spin indicator={getIndicatorIcon()} /> {/* Исправлено на правильное имя функции */}
+                    <Spin indicator={getIndicatorIcon()} />
                 </Container>
             );
         }
@@ -97,8 +98,9 @@ class App extends Component {
 
             return (
                 <Container>
+
                     <Table
-                    style={{ marginBottom: "100px" }}
+                    style ={{ marginBottom: "100px" }}
                     dataSource={students}
                     columns={columns}
                     pagination={false}
@@ -108,11 +110,14 @@ class App extends Component {
                     title='Add new Student'
                     visible={isAddStudentModalVisible}
                     onOk={this.closeAddStudentModal}
-                    onCancel={this.closeAddStudentModalVisible}
+                    onCancel={this.closeAddStudentModal}
                     width={1000}>
 
-                    <h1>Helo Modal width Antd</h1>
-                    <AddStudentForm></AddStudentForm>
+                    <AddStudentForm onSuccess={() => {
+                            this.closeAddStudentModal();
+                            this.fetchStudents();
+                            console.log("Форма отправлена")
+                        }} />
                     </Modal>
                     <Footer numbersOfStudents={students.length}
                     handleAddStudentClickEvent={this.openAddStudentModal}/>
