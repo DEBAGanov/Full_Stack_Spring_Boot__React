@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { getAllStudents } from './client';
+import { errorNotification } from './Notification';
 import { Table, Avatar, Spin, Modal } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Container from './Container';
@@ -41,10 +42,14 @@ class App extends Component {
                 this.setState({ students, isFetching: false });
             })
             .catch(error => {
-                console.error("Ошибка при получении студентов:", error);
+                // console.error("Ошибка при получении студентов:", error);
+                // console.log(error.error.timestamp);
+                // errorNotification(error.error.message);
+                errorNotification(error.error.error, error.error.timestamp );
                 this.setState({ isFetching: false });
             });
     };
+
 
     render() {
         const { students, isFetching, isAddStudentModalVisible } = this.state;

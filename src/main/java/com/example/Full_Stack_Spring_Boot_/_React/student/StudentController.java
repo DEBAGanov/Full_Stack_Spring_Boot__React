@@ -18,7 +18,10 @@ public class StudentController {
 
     @GetMapping
     public List<Student> getAllStudents() {
+        throw new IllegalStateException("Oops cannot get all students");
+/*
         return studentService.getAllStudents();
+*/
     }
     @PostMapping
     public void addNewStudent(@RequestBody Student student) {
