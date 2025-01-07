@@ -38,10 +38,12 @@ const AddStudentForm = (props) => {
                     .then(() => {
                         // alert(JSON.stringify(student))]
                         props.onSuccess();
-                        setSubmitting(false);
                     })
-                    .catch(error => {
-                        console.error("Ошибка при добавлении студента:", error);
+                    .catch(errors => {
+                        props.onFailure(errors);
+                        //console.error("Ошибка при добавлении студента:", error);
+                    })
+                    .finally(() => {
                         setSubmitting(false);
                     });
             }}

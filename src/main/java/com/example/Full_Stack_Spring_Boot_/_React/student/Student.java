@@ -1,6 +1,9 @@
 package com.example.Full_Stack_Spring_Boot_._React.student;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.UUID;
 
@@ -8,9 +11,18 @@ public class Student {
 
 
     private final UUID studentId;
+
+    @NotBlank
     private final String firstName;
+
+    @NotBlank
     private final String lastName;
+
+    @NotBlank
+    @Email
     private final String email;
+
+    @NotNull
     private final Gender gender;
 
     public Student(@JsonProperty("studentId") UUID studentId,

@@ -42,7 +42,7 @@ public class StudentDataAccessService {
                 " last_name, " +
                 " email, " +
                 " gender ) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?::gender)";
 
         try {
             return jdbcTemplate.update(
@@ -51,14 +51,14 @@ public class StudentDataAccessService {
                     student.getFirstName(),
                     student.getLastName(),
                     student.getEmail(),
-                    student.getGender().name().toUpperCase()
-            );
+                    student.getGender().name().toUpperCase());
         } catch (DataAccessException e) {
             // Логирование ошибки
             System.err.println("Error inserting student: " + e.getMessage());
-            throw e; // или обработайте ошибку по-другому
+            throw e; // или обработать ошибку по-другому
         }
     }
+
     private static RowMapper<Student> mapStudentFromDb() {
         return (resultSet, i) -> {
             String studentIdStr = resultSet.getString("student_id");
@@ -75,5 +75,19 @@ public class StudentDataAccessService {
                     email,
                     gender);
         };
+    }
+
+    boolean isEmailTaken(String email) {
+        String sql = "" +
+                "SELECT EXISTS ( " +
+                " SELECT 1" +
+                " FROM student " +
+                " WHERE email = ?" +
+                ")";
+        Boolean b = jdbcTemplate.queryForObject(
+                sql,
+                new Object[] { email },
+                (resultSet, i) -> resultSet.getBoolean(1));
+        return b;
     }
 }

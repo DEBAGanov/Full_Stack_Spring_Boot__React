@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { getAllStudents } from './client';
 import { errorNotification } from './Notification';
-import { Table, Avatar, Spin, Modal } from 'antd';
+import { Table, Avatar, Spin, Modal, Empty } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Container from './Container';
 import Footer from './Footer';
@@ -45,14 +45,49 @@ class App extends Component {
                 // console.error("Ошибка при получении студентов:", error);
                 // console.log(error.error.timestamp);
                 // errorNotification(error.error.message);
-                errorNotification(error.error.error, error.error.timestamp );
+                console.log("тут ошибка");
+                // const message = error.error.status;
+                const message = error.message;
+                const description = "Не удалось загрузить список";
+                errorNotification(message, description);
                 this.setState({ isFetching: false });
             });
     };
 
-
     render() {
         const { students, isFetching, isAddStudentModalVisible } = this.state;
+        const commonElements = () => (
+            <div>
+                <Modal
+                    title='Add new Student'
+                    open={isAddStudentModalVisible}
+                    onOk={this.closeAddStudentModal}
+                    onCancel={this.closeAddStudentModal}
+                    width={1000}>
+
+                    <AddStudentForm
+                    onSuccess={() => {
+                            this.closeAddStudentModal();
+                            this.fetchStudents();
+                            console.log("Форма отправлена")
+                        }}
+                    onFailure={(error) => {
+                        console.log(JSON.stringify(error));
+                        const message = error.error.message;
+                        const description = error.message;
+                        errorNotification(message, description);
+                        console.log("Ошибка при отправке формы");
+                    }}
+
+
+
+                        />
+                </Modal>
+                <Footer numbersOfStudents={students.length}
+                    handleAddStudentClickEvent={this.openAddStudentModal}/>
+            </div>
+
+        )
 
         if (isFetching) {
             return (
@@ -61,6 +96,9 @@ class App extends Component {
                 </Container>
             );
         }
+
+
+
 
         // Проверяем, есть ли студенты
         if (students && students.length) {
@@ -110,29 +148,22 @@ class App extends Component {
                     columns={columns}
                     pagination={false}
                     rowKey="studentId"/>
-
-                    <Modal
-                    title='Add new Student'
-                    visible={isAddStudentModalVisible}
-                    onOk={this.closeAddStudentModal}
-                    onCancel={this.closeAddStudentModal}
-                    width={1000}>
-
-                    <AddStudentForm onSuccess={() => {
-                            this.closeAddStudentModal();
-                            this.fetchStudents();
-                            console.log("Форма отправлена")
-                        }} />
-                    </Modal>
-                    <Footer numbersOfStudents={students.length}
-                    handleAddStudentClickEvent={this.openAddStudentModal}/>
-
+                    {commonElements()}
                 </Container>
             );
         }
 
         // Если студентов нет, отображаем сообщение
-        return <h1>No Student List found</h1>;
+        return(
+        <Container>
+            <Empty description={
+                <h1>No Data List found</h1>
+                }/>
+                {commonElements()}
+        </Container>
+        );
+
+
     }
 }
 
