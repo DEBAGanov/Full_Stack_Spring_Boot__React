@@ -133,6 +133,11 @@ class App extends Component {
                     key: 'email',
                 },
                 {
+                    title: 'Phone',
+                    dataIndex: 'phoneNumber',
+                    key: 'phoneNumber',
+                },
+                {
                     title: 'Gender',
                     dataIndex: 'gender',
                     key: 'gender',

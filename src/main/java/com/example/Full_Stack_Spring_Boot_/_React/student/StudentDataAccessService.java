@@ -24,6 +24,7 @@ public class StudentDataAccessService {
                 " first_Name," +
                 " last_Name," +
                 " email," +
+                " phone_number," +
                 " gender " +
                 "FROM student";
 
@@ -41,8 +42,9 @@ public class StudentDataAccessService {
                 " first_name, " +
                 " last_name, " +
                 " email, " +
+                " phone_number," +
                 " gender ) " +
-                "VALUES (?, ?, ?, ?, ?::gender)";
+                "VALUES (?, ?, ?, ?, ?, ?::gender)";
 
         try {
             return jdbcTemplate.update(
@@ -51,6 +53,7 @@ public class StudentDataAccessService {
                     student.getFirstName(),
                     student.getLastName(),
                     student.getEmail(),
+                    student.getPhoneNumber(),
                     student.getGender().name().toUpperCase());
         } catch (DataAccessException e) {
             // Логирование ошибки
@@ -66,6 +69,7 @@ public class StudentDataAccessService {
             String firstName = resultSet.getString("first_Name"); // исправлено
             String lastName = resultSet.getString("last_Name");
             String email = resultSet.getString("email"); // исправлено
+            String phoneNumber = resultSet.getString("phone_Number"); // исправлено
             String genderStr = resultSet.getString("gender").toUpperCase();
             Student.Gender gender = Student.Gender.valueOf(genderStr);
             return new Student(
@@ -73,6 +77,7 @@ public class StudentDataAccessService {
                     firstName,
                     lastName,
                     email,
+                    phoneNumber,
                     gender);
         };
     }

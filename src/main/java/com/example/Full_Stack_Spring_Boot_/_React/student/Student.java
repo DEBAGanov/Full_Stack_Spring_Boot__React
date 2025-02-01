@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public class Student {
 
-
     private final UUID studentId;
 
     @NotBlank
@@ -22,18 +21,23 @@ public class Student {
     @Email
     private final String email;
 
+    @NotBlank
+    private final String phoneNumber;
+
     @NotNull
     private final Gender gender;
 
     public Student(@JsonProperty("studentId") UUID studentId,
-                   @JsonProperty("firstName") String firstName,
-                   @JsonProperty("lastName") String lastName,
-                   @JsonProperty ("email") String email,
-                   @JsonProperty ("gender") Gender gender) {
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
+            @JsonProperty("email") String email,
+            @JsonProperty("phoneNumber") String phoneNumber,
+            @JsonProperty("gender") Gender gender) {
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
         this.gender = gender;
     }
 
@@ -53,6 +57,10 @@ public class Student {
         return email;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public Gender getGender() {
         return gender;
     }
@@ -68,6 +76,7 @@ public class Student {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", gender=" + gender +
                 '}';
     }

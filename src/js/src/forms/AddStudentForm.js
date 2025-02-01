@@ -9,7 +9,7 @@ const TagStyle = { backgroundColor: "#f60", color: "black", margin: "5px" };
 const AddStudentForm = (props) => {
     return (
         <Formik
-            initialValues={{ firstName: '', lastName: '', email: '', gender: '' }}
+            initialValues={{ firstName: '', lastName: '', email: '', phoneNumber: '', gender: '' }}
             validate={values => {
                 const errors = {};
                 if (!values.firstName) {
@@ -92,6 +92,21 @@ const AddStudentForm = (props) => {
                             )}
                         </Field>
                         <ErrorMessage name="email">
+                            {msg => <Tag style={TagStyle}>{msg}</Tag>}
+                        </ErrorMessage>
+                    </div>
+                    <div>
+                        <label htmlFor="phoneNumber">Phone </label>
+                        <Field name="phoneNumber">
+                            {({ field }) => (
+                                <Input
+                                    {...field}
+                                    style={inputBottomMargin}
+                                    placeholder="phone number, e.g. +7234567890"
+                                />
+                            )}
+                        </Field>
+                        <ErrorMessage name="phoneNumber">
                             {msg => <Tag style={TagStyle}>{msg}</Tag>}
                         </ErrorMessage>
                     </div>
